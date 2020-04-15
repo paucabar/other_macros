@@ -35,9 +35,12 @@ if (binning=="2x2") {
 }
 
 //resize and save
+print("Processing");
 setBatchMode(true);
+progress=1;
 for (i=0; i<list.length; i++) {
 	if (endsWith(list[i], ".tif")) {
+		print(list[i], "("+progress+"/"+count+")");
 		open(list[i]);
 		index=indexOf(list[i], ".");
 		rename("original");
@@ -46,6 +49,8 @@ for (i=0; i<list.length; i++) {
 		saveAs("tif", output+File.separator+substring(list[i], 0, index));
 		close(list[i]);
 		close("original");
+		progress++;
 	}
 }
 setBatchMode(false);
+print("End of process");
