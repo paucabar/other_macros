@@ -1,13 +1,29 @@
 //choose a downsize scle and a directory
-#@ String (label=" ", value="<html><font size=6><b>High Throughput Analysis</font><br><font color=teal>Cell Adhesion Assay</font></b></html>", visibility=MESSAGE, persist=false) heading
-#@ String(label="Select mode:", choices={"2x2", "4x4"}, style="radioButtonHorizontal") binning
+#@ String (label=" ", value="<html><font size=6><b>Post-Acquisition Binning</font></b></html>", visibility=MESSAGE, persist=false) heading
 #@ File(label="Select directory:", style="directory") dir
+#@ String(label="Select mode:", choices={"2x2", "4x4"}, style="radioButtonHorizontal") binning
 #@ String (label=" ", value="<html><img src=\"https://live.staticflickr.com/65535/48557333566_d2a51be746_o.png\"></html>", visibility=MESSAGE, persist=false) logo
 #@ String (label=" ", value="<html><font size=2><b>Neuromolecular Biology Lab</b><br>ERI BIOTECMED, Universitat de València (Valencia, Spain)</font></html>", visibility=MESSAGE, persist=false) message
 
-//get file list and create an output folder
+//get file list and directory name
 list=getFileList(dir);
 dirName=File.getName(dir);
+
+//count tif files
+count=0;
+for (i=0; i<list.length; i++) {
+	if (endsWith(list[i], ".tif")) {
+		count++;
+	}
+}
+
+//check if there are tif files
+if (count==0) {
+	beep();
+	exit("No TIF files found in " + dir);
+}
+
+//create an output folder
 output=dir+File.separator+dirName+"_dwsz"+binning;
 File.makeDirectory(output);
 
