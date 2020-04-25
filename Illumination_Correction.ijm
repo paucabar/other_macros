@@ -67,12 +67,10 @@ fieldsxwell = nFields / nWells;
 //Extraction of the ‘channel’ information from the images’ filenames
 //create an array containing the names of the channels
 channels=newArray(imagesxfield);
-count=0;
-while (channels.length > count+1) {
-	index1=indexOf(tifArray[count], "wv ");
-	index2=lastIndexOf(tifArray[count], ").");
-	channels[count]=substring(tifArray[count], index1+3, index2);
-	count++;
+for (i=0; i < channels.length; i++) {
+	index1=indexOf(tifArray[i], "wv ");
+	index2=lastIndexOf(tifArray[i], ").");
+	channels[i]=substring(tifArray[i], index1+3, index2);
 }
 
 //create output directory
@@ -99,12 +97,13 @@ for (i=0;i<channels.length; i++) {
 
 if (mode == "Correct images") {
 	for (i=0; i<tifArray.length; i++) {
-		open(dir+File.separator+tifArray[i]);
 		channelFound=false;
 		chlCount=0;
 		while (!channelFound) {
 			if (indexOf(tifArray[i], channels[chlCount]) != -1) {
+				print("Correcting", tifArray[i]);
 				channelFound=true;
+				open(dir+File.separator+tifArray[i]);
 				open(outputDir+File.separator+"Flat-field"+File.separator+"Flat-field_"+channels[chlCount]+".tif");
 				imageCalculator("Divide create", tifArray[i], "Flat-field_"+channels[chlCount]+".tif");
 				formatIndex=lastIndexOf(tifArray[i], ".tif");
