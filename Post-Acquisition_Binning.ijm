@@ -1,7 +1,7 @@
 //choose a downsize scle and a directory
 #@ String (label=" ", value="<html><font size=6><b>Post-Acquisition Binning</font></b></html>", visibility=MESSAGE, persist=false) heading
 #@ File(label="Select directory:", style="directory") dir
-#@ String(label="Select mode:", choices={"2x2", "4x4"}, style="radioButtonHorizontal") binning
+#@ String(label="Select mode:", choices={"2x2", "3x3", "4x4"}, style="radioButtonHorizontal") binning
 #@ String (label=" ", value="<html><img src=\"https://live.staticflickr.com/65535/48557333566_d2a51be746_o.png\"></html>", visibility=MESSAGE, persist=false) logo
 #@ String (label=" ", value="<html><font size=2><b>Neuromolecular Biology Lab</b><br>ERI BIOTECMED, Universitat de València (Valencia, Spain)</font></html>", visibility=MESSAGE, persist=false) message
 
@@ -29,9 +29,11 @@ File.makeDirectory(output);
 
 //set the scale
 if (binning=="2x2") {
-	scale=0.25;
+	scale=1/4;
+} else if (binning=="3x3") {
+	scale=1/9;
 } else {
-	scale=0.0625;
+	scale=1/16;
 }
 
 //resize and save
